@@ -1,7 +1,10 @@
 # src/mnist_demo.py
 import tensorflow as tf
 from tensorflow.keras import layers, models
+from pathlib import Path
 import numpy as np
+
+MODEL_PATH = Path("model/mnist_model.keras")
 
 def build_model():
     """Return a compiled CNN model for MNIST."""
@@ -32,6 +35,11 @@ def main(epochs=3):
     # Evaluate
     test_loss, test_acc = model.evaluate(x_test[..., np.newaxis], y_test)
     print(f"Test accuracy: {test_acc:.4f}")
+
+    # Save model for CT
+    MODEL_PATH.parent.mkdir(exist_ok=True)
+    model.save(MODEL_PATH)
+    print(f"Model saved at {MODEL_PATH}")
 
     # Predict first 5 images
     predictions = model.predict(x_test[:5][..., np.newaxis])

@@ -1,0 +1,22 @@
+name: Continuous Training
+
+# Trigger on a schedule (daily at midnight) or push to new-data folder
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  push:
+    paths:
+      - 'data/new/**'  # optional: triggers retraining when new data is added
+
+jobs:
+  retrain:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - run: pip install --upgrade pip
+      - run: pip install -r requirements.txt tensorflow
+      - run: python src/continuous_training.py
+      - run: ls -l model  # show updated model
