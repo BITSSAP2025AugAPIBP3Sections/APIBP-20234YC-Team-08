@@ -28,7 +28,7 @@ jobs:
 
       - name: Build macOS executable
         run: |
-          pyinstaller --onefile --name "MNISTStreamlitApp" app/app.py
+          pyinstaller --onefile --name "MNISTStreamlitApp" src/app.py
 
       - name: Prepare release directory
         run: |
