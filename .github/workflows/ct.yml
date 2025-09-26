@@ -40,4 +40,9 @@ jobs:
         if: env.no_new_data != 'true'
 
       # 6. Continuous training (runs only if new data exists)
-      - run: python src/c
+      - run: python src/continuous_training.py
+        if: env.no_new_data != 'true'
+
+      # 7. List model folder (runs only if new data exists)
+      - run: ls -l model
+        if: env.no_new_data != 'true'
