@@ -1,4 +1,4 @@
-name: CD
+name: CD - macOS Release
 
 on:
   workflow_run:
@@ -7,9 +7,9 @@ on:
       - completed
 
 jobs:
-  deploy:
+  build-macos:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - name: Checkout repo
@@ -18,35 +18,34 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install pyinstaller
 
-      - name: Install Azure CLI
-        uses: azure/setup-azure@v3
+      - name: Build macOS executable
+        run: |
+          pyinstaller --onefile --name "MNISTStreamlitApp" app/app.py
 
-      - name: Log in to Azure
-        uses: azure/login@v1
+      - name: Prepare release directory
+        run: |
+          mkdir -p release
+          cp dist/MNISTStreamlitApp release/
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          tag_name: v${{ github.run_number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - name: Zip app for deployment
-        run: |
-          mkdir app
-          cp requirements.txt ./app/
-          cp ./src/app.py ./app/
-          cp -r ./model ./app/
-          cd app
-          zip -r ../app.zip .
-          cd ..
-
-      - name: Deploy to Azure Web App
-        run: |
-          az webapp deploy \
-            --name ${{ secrets.AZURE_WEBAPP_NAME }} \
-            --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
-            --src-path app.zip \
-            --type zip
+      - name: Upload executable to release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: release/MNISTStreamlitApp
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
