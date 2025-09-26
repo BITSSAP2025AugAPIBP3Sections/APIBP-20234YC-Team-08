@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Check app availability
         run: |
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" ${{secrets.APP_URL}})
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" ${{ secrets.APP_URL }})
           echo "HTTP status code: $STATUS"
           if [ "$STATUS" -ne 200 ]; then
             echo "App is down!"
@@ -23,6 +23,6 @@ jobs:
       - name: Log response time
         run: |
           START=$(date +%s%3N)
-          curl -s https://<YOUR_APP_URL> > /dev/null
+          curl -s ${{ secrets.APP_URL }} > /dev/null
           END=$(date +%s%3N)
           echo "Response time: $((END-START)) ms"
