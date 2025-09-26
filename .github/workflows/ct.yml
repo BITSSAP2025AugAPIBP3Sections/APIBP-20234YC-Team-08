@@ -5,19 +5,39 @@ on:
     workflows: ["CI"]
     types:
       - completed
-    paths:
-      - 'data/new/**'
 
 jobs:
   retrain:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
+      # 1. Checkout code
       - uses: actions/checkout@v3
+
+      # 2. Check if new data changed
+      - name: Check if new data changed
+        id: check_data
+        run: |
+          git fetch origin main
+          CHANGED=$(git diff --name-only origin/main HEAD | grep '^data/new/' || true)
+          if [ -z "$CHANGED" ]; then
+            echo "no_new_data=true" >> $GITHUB_ENV
+            echo "No new data changes; skipping continuous training."
+          fi
+
+      # 3. Setup Python (runs only if new data exists)
       - uses: actions/setup-python@v4
+        if: env.no_new_data != 'true'
         with:
           python-version: "3.10"
+
+      # 4. Upgrade pip (runs only if new data exists)
       - run: pip install --upgrade pip
+        if: env.no_new_data != 'true'
+
+      # 5. Install dependencies (runs only if new data exists)
       - run: pip install -r requirements.txt tensorflow
-      - run: python src/continuous_training.py
-      - run: ls -l model  # show updated model
+        if: env.no_new_data != 'true'
+
+      # 6. Continuous training (runs only if new data exists)
+      - run: python src/c
