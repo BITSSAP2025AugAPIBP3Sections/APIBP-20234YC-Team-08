@@ -35,6 +35,3 @@ if st.button("Predict") and canvas.image_data is not None:
     x = x[np.newaxis, ..., np.newaxis]
     pred = model.predict(x)
     st.write(f"Predicted digit: {int(np.argmax(pred[0]))}")
-
-port = int(os.environ.get("PORT", 8501))
-st.run_server("0.0.0.0", port=port)
