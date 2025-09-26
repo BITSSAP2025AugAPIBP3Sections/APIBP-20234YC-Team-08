@@ -30,12 +30,17 @@ jobs:
 
       - name: Build macOS executable
         run: |
-          pyinstaller --onefile --name "MNISTStreamlitApp" src/app.py
+          pyinstaller --onefile --name "MNISTStreamlitApp" \
+            --hidden-import streamlit \
+            --collect-all streamlit \
+            --collect-all blinker \
+            --collect-all altair \
+            src/app.py
 
-      - name: Prepare release directory
-        run: |
-          mkdir -p release
-          cp dist/MNISTStreamlitApp release/
+        - name: Prepare release directory
+          run: |
+            mkdir -p release
+            cp dist/MNISTStreamlitApp release/
 
       - name: Prepare release directory
         run: |
