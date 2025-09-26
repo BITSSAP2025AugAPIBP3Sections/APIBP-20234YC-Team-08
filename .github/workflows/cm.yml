@@ -1,0 +1,28 @@
+name: Continuous Monitoring
+
+on:
+  schedule:
+    # Run every 5 minutes (adjust as needed)
+    - cron: '*/5 * * * *'
+  workflow_dispatch: # allows manual triggering
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check app availability
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://<YOUR_APP_URL>)
+          echo "HTTP status code: $STATUS"
+          if [ "$STATUS" -ne 200 ]; then
+            echo "App is down!"
+            exit 1
+          fi
+
+      - name: Log response time
+        run: |
+          START=$(date +%s%3N)
+          curl -s https://<YOUR_APP_URL> > /dev/null
+          END=$(date +%s%3N)
+          echo "Response time: $((END-START)) ms"
