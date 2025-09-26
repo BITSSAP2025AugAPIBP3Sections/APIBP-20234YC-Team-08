@@ -16,12 +16,12 @@ jobs:
       - name: Check if new data changed
         id: check_data
         run: |
-          git fetch origin main
-          CHANGED=$(git diff --name-only origin/main $GITHUB_SHA | grep '^data/new/')
-          if [ -z "$CHANGED" ]; then
-            echo "No new data changes"
-            exit 78  # GitHub Actions will skip the job
-          fi
+            git fetch origin main
+            CHANGED=$(git diff --name-only origin/main HEAD | grep '^data/new/' || true)
+            if [ -z "$CHANGED" ]; then
+              echo "No new data changes"
+              exit 78  # GitHub Actions skips the job
+            fi
 
       - uses: actions/setup-python@v4
         with:
