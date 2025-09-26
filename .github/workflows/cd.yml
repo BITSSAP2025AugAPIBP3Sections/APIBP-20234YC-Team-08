@@ -1,10 +1,13 @@
-name: CD - Azure Deployment
+name: CD - Azure Git Push
 
 on:
-  workflow_run:
-    workflows: ["CT"] # only deploy if CT (tests) succeed
-    types:
-      - completed
+  # workflow_run:
+  #   workflows: ["CT"]
+  #   types:
+  #     - completed
+  push:
+    branches:
+      - main
 
 jobs:
   deploy:
@@ -15,9 +18,16 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: MLOps-Demo-for-BITS
-          slot-name: production
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+      - name: Set up Git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@users.noreply.github.com"
+
+      - name: Push to Azure remote
+        env:
+          AZURE_REMOTE_URL: ${{ secrets.AZURE_REMOTE_URL }}
+          AZURE_REMOTE_USER: ${{ secrets.AZURE_REMOTE_USER }}
+          AZURE_REMOTE_PASSWORD: ${{ secrets.AZURE_REMOTE_PASSWORD }}
+        run: |
+          git remote add azure https://$AZURE_REMOTE_USER:$AZURE_REMOTE_PASSWORD@$AZURE_REMOTE_URL
+          git push azure HEAD:master --force
