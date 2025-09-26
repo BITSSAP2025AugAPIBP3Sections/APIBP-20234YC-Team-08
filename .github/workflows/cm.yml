@@ -4,7 +4,7 @@ on:
   schedule:
     # Run every 5 minutes (adjust as needed)
     - cron: '*/5 * * * *'
-  # workflow_dispatch: # allows manual triggering
+  workflow_dispatch: # allows manual triggering
 
 jobs:
   monitor:
