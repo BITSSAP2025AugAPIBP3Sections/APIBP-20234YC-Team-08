@@ -1,57 +1,23 @@
-name: CD - macOS Release
+name: CD - Azure Deployment
 
 on:
   workflow_run:
-    workflows: ["CT"]
+    workflows: ["CT"] # only deploy if CT (tests) succeed
     types:
       - completed
 
 jobs:
-  build-macos:
+  deploy:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
         with:
-          python-version: "3.11"
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip uninstall tensorflow
-          pip install tensorflow-macos tensorflow-metal
-          pip install -r requirements.txt
-          pip install pyinstaller
-
-      - name: Build macOS executable
-        run: |
-          pyinstaller --onefile --name "MNISTStreamlitApp" \
-            --hidden-import streamlit \
-            --collect-all streamlit \
-            --collect-all blinker \
-            --collect-all altair \
-            src/app.py
-
-        - name: Prepare release directory
-          run: |
-            mkdir -p release
-            cp dist/MNISTStreamlitApp release/
-
-      - name: Prepare release directory
-        run: |
-          mkdir -p release
-          cp dist/MNISTStreamlitApp release/
-
-      - name: Create or Update GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: v1.0.0
-          files: release/MNISTStreamlitApp
-          overwrite: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          app-name: your-app-service-name  # replace with your Azure Web App name
+          slot-name: production
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
