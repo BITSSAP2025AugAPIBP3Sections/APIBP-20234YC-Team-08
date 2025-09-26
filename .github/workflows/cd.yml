@@ -7,8 +7,8 @@ name: CD
 on:
   workflow_run:
     workflows: ["CT"]
-      types:
-        - completed
+    types:
+      - completed
 
 jobs:
   build:
