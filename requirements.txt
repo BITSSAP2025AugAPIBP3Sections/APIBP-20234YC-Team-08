@@ -1,4 +1,8 @@
 tensorflow
 numpy
 pytest
+streamlit
+pillow
+watchdog
+streamlit-drawable-canvas
 urllib3<2

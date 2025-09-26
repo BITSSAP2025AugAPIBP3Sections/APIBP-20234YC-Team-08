@@ -1,18 +1,28 @@
-name: Continuous Training
+name: CT
 
-# Trigger on a schedule (daily at midnight) or push to new-data folder
 on:
-  schedule:
-    - cron: '0 0 * * *'
-  push:
-    paths:
-      - 'data/new/**'  # optional: triggers retraining when new data is added
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
 
 jobs:
   retrain:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - name: Check if new data changed
+        id: check_data
+        run: |
+          git fetch origin main
+          CHANGED=$(git diff --name-only origin/main $GITHUB_SHA | grep '^data/new/')
+          if [ -z "$CHANGED" ]; then
+            echo "No new data changes"
+            exit 78  # GitHub Actions will skip the job
+          fi
+
       - uses: actions/setup-python@v4
         with:
           python-version: "3.10"
