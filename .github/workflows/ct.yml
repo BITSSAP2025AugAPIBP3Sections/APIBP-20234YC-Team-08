@@ -18,8 +18,8 @@ jobs:
       - name: Check if new data changed
         id: check_data
         run: |
-          git fetch origin main
-          CHANGED=$(git diff --name-only origin/main HEAD | grep '^data/new/' || true)
+          # Compare the current commit (HEAD) with its parent (HEAD^)
+          CHANGED=$(git diff --name-only HEAD^ HEAD | grep '^data/new/' || true)
           if [ -z "$CHANGED" ]; then
             echo "no_new_data=true" >> $GITHUB_ENV
             echo "No new data changes; skipping continuous training."
