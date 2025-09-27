@@ -1,6 +1,6 @@
 import pytest
 import tensorflow as tf
-from src.mnist_demo import build_model  # assume you split model building function
+from src.mnist_demo import build_model
 
 def test_model_creation():
     model = build_model()
