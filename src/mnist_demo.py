@@ -19,7 +19,7 @@ def build_model():
     model.compile(optimizer="adam",
                   loss="sparse_categorical_crossentropy",
                   metrics=["accuracy"])
-    # return model
+    return model
 
 def main(epochs=3):
     # Load data
