@@ -58,6 +58,8 @@ The primary aim of this project is to build an end-to-end digit recognition syst
 
 # APIs
 
+Creation of an API that can send requests to the model in the form of images in json format and retrieve information from the model to be displayed to the user. (current techstack is python and Fast API - not the inal confirmation).
+
 ## Core Recognition Endpoints
 
 ### 1. Single Image Recognition
