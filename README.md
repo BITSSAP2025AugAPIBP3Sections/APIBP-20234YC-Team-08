@@ -14,6 +14,23 @@
 
 Once you are done, do `deactivate`
 
+## AWS Instance details 
+
+AWS account :
+Email : shreeshahegde123@gmail.com
+password : 9898212100@Shreesha
+
+Signin to AWS management console using the same credentials 
+
+Connect to the Jenkins Master and Slave1 instances .
+Credentials for Jenkins_Master instance :
+
+UserName : shreesha
+password : 2002
+
+GitHub_Integration is the item which is integrated with the project . 
+
+
 # Introduction
 
 This project is a machine learning application developed using Python for the backend, with GitHub Actions managing automated pipelines and deployment hosted on Microsoft Azure. The system leverages the MNIST dataset to train a model capable of recognizing handwritten digits with high accuracy.
