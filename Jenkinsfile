@@ -20,7 +20,7 @@ pipeline {
                     rm -rf venv
                     
                     # Create and activate the virtual environment
-                    #python3 -m venv venv
+                    # python3 -m venv venv
                     source linux_venv/bin/activate
                     
                     echo "Installing dependencies..."
@@ -39,8 +39,10 @@ pipeline {
 
                     echo "Starting Streamlit application in the background..."
                     # Activate the virtual environment
-                    source venv/bin/activate
-                    
+                    source linux_venv/bin/activate
+                
+
+                
                     # 'nohup' runs the command even if you close the terminal.
                     # '&' runs the command in the background, so it doesn't block the Jenkins build.
                     nohup streamlit run src/app.py --server.port 8501 &
