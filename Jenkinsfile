@@ -45,7 +45,7 @@ pipeline {
                 
                     # 'nohup' runs the command even if you close the terminal.
                     # '&' runs the command in the background, so it doesn't block the Jenkins build.
-                    nohup streamlit run src/app.py --server.port 8501 &
+                    nohup python -m streamlit run src/app.py --server.port 8501 &
                 '''
             }
         }
