@@ -65,7 +65,7 @@ Creation of an API that can send requests to the model in the form of images in 
 ### 1. Single Image Recognition
 ```
 POST /api/v1/predict
-Content-Type: multipart/form-data or application/json
+Content-Type: .png fle or a .jpeg file
 ```
 - Upload single image for digit recognition
 - Returns predicted digit with confidence score
