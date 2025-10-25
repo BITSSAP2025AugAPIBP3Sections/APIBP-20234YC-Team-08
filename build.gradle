@@ -1,0 +1,15 @@
+import com.pswidersk.gradle.python.VenvTask;
+
+plugins {
+  id("com.pswidersk.python-plugin") version "2.10.0"
+}
+
+pythonPlugin {
+    pythonVersion = "3.11"
+}
+
+tasks.register("runQuickSort", VenvTask) {
+    // workingDir = projectDir.resolve("main")
+    // args = listOf("quicksort.py")
+    println("running QuickSort...")
+}
