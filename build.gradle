@@ -8,8 +8,16 @@ pythonPlugin {
     pythonVersion = "3.11"
 }
 
-tasks.register("runQuickSort", VenvTask) {
-    // workingDir = projectDir.resolve("main")
-    // args = listOf("quicksort.py")
-    println("running QuickSort...")
+// tasks.register("cloneRepo", Exec) {
+//     commandLine 'git', 'clone', 'git@github.com:BITSSAP2025AugAPIBP3Sections/APIBP-20234YC-Team-08.git'
+// }
+
+tasks.register("setupVenv", VenvTask) {
+    venvExec = "python"
+    args = ["-m", "pip", "install", "-r", "requirements.txt"]
+}
+
+tasks.register("runDemo", VenvTask) {
+    venvExec = "python"
+    args = ['-m', 'streamlit', 'run', 'app.py']
 }
