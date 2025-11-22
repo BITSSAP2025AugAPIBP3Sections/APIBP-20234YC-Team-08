@@ -4,35 +4,23 @@ from PIL import Image
 import base64
 from io import BytesIO
 
-# --------------------------
-# API Endpoints
-# --------------------------
 API_BASE = "http://localhost:8000/api/v1"
 PREDICT_URL = f"{API_BASE}/predict"
 PREDICT_THRESHOLD_URL = f"{API_BASE}/predict/threshold"
 HEALTH_URL = f"{API_BASE}/health"
 INFO_URL = f"{API_BASE}/model/info"
 
-# --------------------------
-# Page Config
-# --------------------------
 st.set_page_config(
     page_title="GitNos API UI",
     layout="wide",
 )
 
-# --------------------------
-# Session State for Menu
-# --------------------------
 if "show_menu" not in st.session_state:
     st.session_state.show_menu = False
 
 if "current_page" not in st.session_state:
     st.session_state.current_page = "Welcome"
 
-# --------------------------
-# Collapsible Menu Button
-# --------------------------
 menu_col1, menu_col2 = st.columns([0.05, 0.95])
 with menu_col1:
     if st.button("☰"):
@@ -40,9 +28,6 @@ with menu_col1:
 with menu_col2:
     st.markdown("Menu" if st.session_state.show_menu else "")
 
-# --------------------------
-# Sidebar Menu (Hidden by Default)
-# --------------------------
 if st.session_state.show_menu:
     st.markdown("Navigation")
     col1, col2, col3 = st.columns(3)
@@ -54,18 +39,12 @@ if st.session_state.show_menu:
     if st.button("Welcome"):
         st.session_state.current_page = "Welcome"
 
-# --------------------------
-# PAGE 1: Welcome
-# --------------------------
 if st.session_state.current_page == "Welcome":
     st.title("Welcome to GitNos API")
     st.markdown("""
         This interface allows you to Upload one or more images for digit prediction
     """)
 
-# --------------------------
-# PAGE 2: Home
-# --------------------------
 elif st.session_state.current_page == "Home":
     st.title("GitNos Predictor")
     st.markdown("Upload one or more images for prediction using the trained MNIST model.")
@@ -88,7 +67,7 @@ elif st.session_state.current_page == "Home":
                 cols[j].image(img, caption=file.name, use_container_width=True, width=100)
 
         if st.button("Run Predictions"):
-            # Validate threshold
+        
             use_threshold = False
             if threshold.strip():
                 try:
@@ -130,13 +109,9 @@ elif st.session_state.current_page == "Home":
             except Exception as e:
                 st.error(f"An error occurred: {str(e)}")
 
-# --------------------------
-# PAGE 3: Info Page
-# --------------------------
 elif st.session_state.current_page == "Info":
     st.title("Model Information & Health")
 
-    # Two columns layout
     col_buttons, col_result = st.columns([1, 3])
 
     with col_buttons:

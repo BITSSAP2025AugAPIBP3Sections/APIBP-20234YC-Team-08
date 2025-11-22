@@ -76,7 +76,7 @@ def get_model_info():
 def health_check():
     start_time = time.time()
     try:
-        # Perform a small dummy prediction
+
         dummy_input = np.zeros((1, 28, 28, 1), dtype=np.float32)
         _ = model.predict(dummy_input)
         status = "healthy"
