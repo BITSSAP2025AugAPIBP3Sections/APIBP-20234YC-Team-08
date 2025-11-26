@@ -8,6 +8,15 @@ plugins {
   id "org.sonarqube" version "3.5.0.2730"
 }
 
+sonar {
+    properties {
+        property "sonar.projectKey", "gitnos"
+        property "sonar.projectName", "Handwritten Character Recognition ML"
+        property "sonar.host.url", "http://localhost:9000"
+        property "sonar.sources", "src"
+    }
+}
+
 pythonPlugin {
     pythonVersion = "3.11"
 }
