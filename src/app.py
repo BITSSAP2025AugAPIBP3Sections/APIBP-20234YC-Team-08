@@ -1,4 +1,5 @@
 import os
+import sys
 import streamlit as st
 import numpy as np
 import tensorflow as tf
@@ -12,7 +13,13 @@ os.environ["TF_NUM_INTEROP_THREADS"] = "1"
 os.environ["TF_NUM_INTRAOP_THREADS"] = "1"
 
 MODEL_PATH = Path("model/mnist_model.keras")
-model = tf.keras.models.load_model(MODEL_PATH)
+print(f"path exists: {os.path.exists(MODEL_PATH)}")
+
+@st.cache_resource
+def load_mnist_model():
+    return tf.keras.models.load_model(MODEL_PATH, compile=False)
+
+model = load_mnist_model()
 
 st.title("MNIST Digit Recognition Demo")
 
