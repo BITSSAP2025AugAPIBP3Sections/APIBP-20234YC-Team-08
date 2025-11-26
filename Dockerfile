@@ -26,7 +26,7 @@ RUN python -m venv venv && \
 COPY . .
 
 # Expose the port used by Streamlit
-EXPOSE 8501
+EXPOSE 8080
 
 # Define the command to run when the container starts
 CMD ["./venv/bin/streamlit", "run", "app.py"]
