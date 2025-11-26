@@ -1,5 +1,5 @@
 # Use a Python base image, choosing a stable version for consistency
-FROM python:3.10-slim-buster
+FROM python:3.10-slim-bullseye
 
 # Set the working directory inside the container
 WORKDIR /app
