@@ -6,3 +6,4 @@ pillow
 watchdog
 streamlit-drawable-canvas
 urllib3<2
+selenium
