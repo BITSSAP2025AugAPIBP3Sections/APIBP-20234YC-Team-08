@@ -29,4 +29,4 @@ COPY . .
 EXPOSE 8080
 
 # Define the command to run when the container starts
-CMD ["./venv/bin/streamlit", "run", "app.py"]
+CMD ["./venv/bin/streamlit", "run", "src/app.py"]
