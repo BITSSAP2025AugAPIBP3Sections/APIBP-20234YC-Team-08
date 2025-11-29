@@ -23,7 +23,7 @@ if "current_page" not in st.session_state:
 
 menu_col1, menu_col2 = st.columns([0.05, 0.95])
 with menu_col1:
-    if st.button("☰"):
+    if st.button("☰", key="menu_toggle"):
         st.session_state.show_menu = not st.session_state.show_menu
 with menu_col2:
     st.markdown("Menu" if st.session_state.show_menu else "")

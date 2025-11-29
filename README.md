@@ -10,7 +10,7 @@
 
 4. `pip install -r  requirements.txt`
 
-5. `streamlit run app.py`
+5. `streamlit run src/app.py`
 
 Once you are done, do `deactivate`
 
